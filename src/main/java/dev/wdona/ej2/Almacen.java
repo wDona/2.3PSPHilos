@@ -18,6 +18,7 @@ public class Almacen {
     
     // Agrega pieza
     public synchronized void agregarPieza(int cantidad, String nombre, int dia) throws InterruptedException {
+        
         // Evita superar el maximo
         while (nPiezas + cantidad > maxPiezas) {
             wait();
@@ -33,6 +34,7 @@ public class Almacen {
     
     // Resta piezas del almacen
     public synchronized void retirarPieza(int cantidad, String nombre, int dia) throws InterruptedException {
+        
         // Evita tener menos de 0
         while (nPiezas - cantidad < 0) {
             wait();

@@ -3,28 +3,35 @@ package dev.wdona.ej2;
 import java.util.Random;
 
 public class Proveedor implements Runnable {
+    // Almacen del que sacara piezas
     private Almacen almacen;
-    private int diasQueTrabajaraElProveedor;
+    
+    // Numero de veces que el proveedor va a iterar
+    private int nDiasQueTrabajaraElProveedor;
+    
+    // Duracion ficticia en milisegundos que simula una hora
     private long duracionHoraFicticia;
     
-    public Proveedor(Almacen almacen, int diasQueTrabajaraElProveedor, long horasQueEcha) {
+    // Constructor
+    public Proveedor(Almacen almacen, int nDiasQueTrabajaraElProveedor, long duracionHoraFicticia) {
         this.almacen = almacen;
-        this.diasQueTrabajaraElProveedor = diasQueTrabajaraElProveedor;
-        this.duracionHoraFicticia = horasQueEcha;
+        this.nDiasQueTrabajaraElProveedor = nDiasQueTrabajaraElProveedor;
+        this.duracionHoraFicticia = duracionHoraFicticia;
     }
     
     @Override
     public void run() {
-        for (int i = 0; i < diasQueTrabajaraElProveedor; i++) {
+        // Iteracion de cada dia
+        for (int i = 0; i < nDiasQueTrabajaraElProveedor; i++) {
+            
+            // Como provee cada 8h, un dia tiene 24h, itera 3 veces
             for (int j = 0; j < 24/8; j++) {
+                
+                // Agrega un numero de piezas aleatorio
                 int numPiezasAAnadir = new Random().nextInt(400, 1000);
                 
                 try {
                     almacen.agregarPieza(numPiezasAAnadir, Thread.currentThread().getName(), i);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
                     Thread.sleep(duracionHoraFicticia * 8);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
